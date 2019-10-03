@@ -9,7 +9,6 @@ def main():
         print("ERROR: Usage - pyhton3 {} <error-colormap-image>".format(sys.argv[0]))
         sys.exit()
 
-    # Need to test with Non-PNG files **should work**
     image = Image.open(sys.argv[1])
     img_pixels = image.convert('RGB').load()
     img_size = image.size
@@ -39,29 +38,23 @@ def main():
         (253, 174,  97): (6, 12),
         (244, 109,  67): (12, 24),
         (215,  48,  39): (24, 48),
-        (165,   0,  38): (48, np.inf),
+        (165,   0,  38): (48, 255),
         (0,0,0): (0,0)
     }
 
     result_error = [None] * (width*height)
-    # missed_pixels = 0
 
-    # needs further optimization
     for x in range(height):
         for y in range(width):
-            # print("pixel {},{} = {}".format(x,y,img_pixels[x,y]))
             rgb = img_pixels[y,x]
 
             err = error_vals.get(rgb)
             if err != None:
                 result_error[(height * x) + y] = err
             else:
-                # print("RGB value {} at pixel ({},{}) not found in error mapping".format(rgb, y, x))
                 error_vals[rgb] = (0,0)
                 result_error[(height * x) + y] = (0,0)
-                # missed_pixels += 1
 
-    # print("{}/{} pixels did not fit in colorscheme".format(missed_pixels, (width*height)))
 
 if __name__ == "__main__":
     main()
