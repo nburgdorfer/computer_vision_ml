@@ -43,17 +43,23 @@ def main():
     }
 
     result_error = [None] * (width*height)
+    none = 0
+    zero = 0
+    count = 0
 
     for x in range(height):
         for y in range(width):
             rgb = img_pixels[y,x]
 
             err = error_vals.get(rgb)
-            if err != None:
-                result_error[(height * x) + y] = err
+            if err == None:
+                none += 1
+            elif(rgb == (0,0,0)):
+                zero += 1
             else:
-                error_vals[rgb] = (0,0)
-                result_error[(height * x) + y] = (0,0)
+                count += 1
+            
+    print("Not there: {}    Zero: {}    In Map: {}".format(none,zero,count))
 
 
 if __name__ == "__main__":
