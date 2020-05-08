@@ -181,16 +181,24 @@ do
         printf "${red}Could not find %s${end}\n" $ALGO
         continue
     fi
-
+    
+    COUNT=0
     for TEST_TAG in "${TEST_IMG_TAGS[@]}"
     do
-        wget -P "$DIR/$ALGO/test/$TEST_TAG/" "$PRE_PATH/alg$FULL_NUM/test/$TEST_TAG/disp-600.jpg" &> /dev/null
-        wget -P "$DIR/$ALGO/test/$TEST_TAG/" "$PRE_PATH/alg$FULL_NUM/test/$TEST_TAG/err2.0-nocc-600.jpg" &> /dev/null
+        wget -i "$PRE_PATH/alg$FULL_NUM/test/$TEST_TAG/disp-600.jpg" -P "$DIR/test/$ALGO/" &> /dev/null
+        wget -i "$PRE_PATH/alg$FULL_NUM/test/$TEST_TAG/err2.0-nocc-600.jpg" -P "$DIR/test/$ALGO/" &> /dev/null
+        mv "./$DIR/test/$ALGO/disp-600.jpg" "./$DIR/test/$ALGO/${COUNT}_result_disp_img.jpg"
+        mv "./$DIR/test/$ALGO/err2.0-nocc-600.jpg" "./$DIR/test/$ALGO/${COUNT}_errors_disp_img.jpg"
+        ((COUNT++))
     done
 
+    COUNT=0
     for TRAINING_TAG in "${TRAINING_IMG_TAGS[@]}"
     do
-        wget -P "$DIR/$ALGO/training/$TRAINING_TAG/" "$PRE_PATH/alg$FULL_NUM/training/$TRAINING_TAG/disp-600.jpg" &> /dev/null
-        wget -P "$DIR/$ALGO/training/$TRAINING_TAG/" "$PRE_PATH/alg$FULL_NUM/training/$TRAINING_TAG/err2.0-nocc-600.jpg" &> /dev/null
+        wget -i "$PRE_PATH/alg$FULL_NUM/training/$TRAINING_TAG/disp-600.jpg" -P "$DIR/training/$ALGO/" &> /dev/null
+        wget -i "$PRE_PATH/alg$FULL_NUM/training/$TRAINING_TAG/err2.0-nocc-600.jpg" -P "$DIR/training/$ALGO/" &> /dev/null
+        mv "./$DIR/training/$ALGO/disp-600.jpg" "./$DIR/training/$ALGO/${COUNT}_result_disp_img.jpg"
+        mv "./$DIR/training/$ALGO/err2.0-nocc-600.jpg" "./$DIR/training/$ALGO/${COUNT}_errors_disp_img.jpg"
+        ((COUNT++))
     done
 done
